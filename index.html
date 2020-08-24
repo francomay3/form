@@ -82,11 +82,11 @@ https://chriszarate.github.io/sheetrock/#usage
         window.location.reload();
     }
 
-    $(document).ready(function() {
-        document.getElementById('ifr').onload=function(){
-            document.getElementById('ifr').addEventListener(onload, success());
-        };
-    });
+    // $(document).ready(function() {
+    //     document.getElementById('ifr').onload=function(){
+    //         document.getElementById('ifr').addEventListener(onload, success());
+    //     };
+    // });
 
     var record = Cookies.get('success');
     window.onload=function(){
@@ -130,7 +130,8 @@ https://chriszarate.github.io/sheetrock/#usage
             console.log("catch!");
         }
 
-    }, 1000);
+    }, 500);
+
     </script>
 </head>
 <body>
@@ -262,7 +263,7 @@ entry.1310555853: observaciones
         <input class="form-control" type="text" id="entry.1310555853" name="entry.1310555853">
     </div>
 
-    <button type="submit" class="btn btn-default">Submit</button>
+    <button type="submit" class="btn btn-default" onclick="document.getElementById('ifr').addEventListener(onload, success());">Submit</button>
 </form>
 
 <iframe style="display: none;" id="ifr" name="response"></iframe>
