@@ -1,0 +1,220 @@
+<!-- 
+
+google sheets:
+https://docs.google.com/spreadsheets/d/1FMKi9byUi5yGA324len--ltC9-Rh1pIwxnbeEGySaKM/edit#gid=899057190
+
+google form:
+https://docs.google.com/forms/d/1565V5_p7fnLF6kAextaEz6QzS2BguN2p5tjE_fQrvdw/edit
+
+form html:
+file:///C:/Users/Sr.%20Franco/Desktop/form.html
+
+como usar sheetrock:
+https://chriszarate.github.io/sheetrock/#usage
+
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" 
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
+        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" 
+        crossorigin="anonymous">
+
+    <!-- JQuery cdn -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- como usar este plugin para sacar info de google sheets: https://chriszarate.github.io/sheetrock/ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sheetrock/1.1.4/dist/sheetrock.min.js"></script>
+
+    <!-- cookie manager plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+
+    <script>
+    
+    var mySpreadsheet = "https://docs.google.com/spreadsheets/d/1ZBOIo_7HasdunKWIdft2-x4Ce-zU8_kqhF1BswyQo-4/edit#gid=0";
+
+    $(document).ready(function() {
+        $("select[name='entry.504557923']").change(function() {
+            var maquina = document.getElementById('entry.504557923').value;
+            $('#statistics').sheetrock({
+            url: mySpreadsheet,
+            query: "SELECT B, C WHERE A='"+maquina+"'",
+            });
+        });
+    });
+
+    function success(){
+        Cookies.set('success','si');
+        window.location.href = "file:///C:/Users/Sr.%20Franco/Desktop/form.html";
+    }
+
+    $(document).ready(function() {
+        document.getElementById('ifr').onload=function(){
+            document.getElementById('ifr').addEventListener(onload, success());
+        };
+    });
+
+    var record = Cookies.get('success');
+    window.onload=function(){
+
+        if (record=="si"){
+            document.getElementById('succ').innerHTML = "registro añadido";
+            Cookies.set('success','');
+        }
+    }
+    var qaproducir = "";
+    var codigo = "";
+    var qProducida = "";
+    window.setInterval(function(){
+
+        QproducidaNuevo = document.getElementById('entry.922562181').value;
+        if (qProducida!=QproducidaNuevo){
+            console.log("cambio "+QproducidaNuevo);
+            qProducida=QproducidaNuevo;
+            console.log("poniendo valor "+qProducida);
+            document.getElementById('progress').value = qProducida;
+        }
+        
+        try{
+        var Qnuevo = document.getElementsByTagName('TD').item(0).innerHTML;
+        var Cnuevo = document.getElementsByTagName('TD').item(1).innerHTML;
+        if ((qaproducir != Qnuevo) || (codigo != Cnuevo)){
+            qaproducir=Qnuevo;
+            codigo=Cnuevo;
+            console.log(qaproducir+" "+codigo);
+            // entry.195087753
+            document.getElementById('entry.195087753').value = codigo;
+            document.getElementById('entry.1772955202').value = qaproducir;
+            document.getElementById('progress').setAttribute('max',qaproducir);
+        }}
+        catch(e){
+            console.log("catch!");
+        }
+
+    }, 1000);
+    </script>
+</head>
+<body>
+
+<!--
+entry.504557923: maquina
+entry.195087753: codigo
+entry.922562181: cantidad producida
+entry.1772955202: cantidad programada
+entry.269150736: parada por codigo
+entry.1310555853: observaciones
+-->
+<a href="https://docs.google.com/spreadsheets/d/1FMKi9byUi5yGA324len--ltC9-Rh1pIwxnbeEGySaKM/edit#gid=899057190">sheet</a><br>
+<a href="https://docs.google.com/forms/d/1565V5_p7fnLF6kAextaEz6QzS2BguN2p5tjE_fQrvdw/edit">form</a><br>
+<a href="https://chriszarate.github.io/sheetrock/#usage">como usar sheetrock</a><br>
+<a href="https://esprima.org/demo/validate.html">validar sintaxis javascript</a><br>
+<a href="https://docs.google.com/spreadsheets/d/1ZBOIo_7HasdunKWIdft2-x4Ce-zU8_kqhF1BswyQo-4/edit?usp=drive_web&ouid=102112079286487799861">sheet programacion</a><br>
+
+<table class="table table-condensed table-striped" id="statistics" style="display: none;"></table>
+
+<p id="succ" style="color: green;"></p>
+
+<form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSeXLFj_stFB6qz5G4EBq1yXjNyRvow__-3X4TbsnPevdLiQDg/formResponse" method="get" target="response">
+
+    <div class="form-group">
+        <label for="entry.504557923">Máquina:</label>
+        <select name="entry.504557923" type="text" class="form-control" id="entry.504557923">
+            <option value="1000-1">1000-1</option>
+            <option value="12000">12000</option>
+            <option value="140-2">140-2</option>
+            <option value="1600">1600</option>
+            <option value="180-2">180-2</option>
+            <option value="180-3">180-3</option>
+            <option value="220-1">220-1</option>
+            <option value="220-2">220-2</option>
+            <option value="220-22">220-22</option>
+            <option value="2200-1">2200-1</option>
+            <option value="2200-10">2200-10</option>
+            <option value="2200-11">2200-11</option>
+            <option value="2200-12">2200-12</option>
+            <option value="2200-13">2200-13</option>
+            <option value="2200-14">2200-14</option>
+            <option value="2200-15">2200-15</option>
+            <option value="2200-16">2200-16</option>
+            <option value="2200-17">2200-17</option>
+            <option value="2200-18">2200-18</option>
+            <option value="2200-19">2200-19</option>
+            <option value="2200-2">2200-2</option>
+            <option value="2200-20">2200-20</option>
+            <option value="2200-21">2200-21</option>
+            <option value="2200-22">2200-22</option>
+            <option value="2200-23">2200-23</option>
+            <option value="2200-24">2200-24</option>
+            <option value="2200-25">2200-25</option>
+            <option value="2200-26">2200-26</option>
+            <option value="2200-27">2200-27</option>
+            <option value="2200-3">2200-3</option>
+            <option value="2200-4">2200-4</option>
+            <option value="2200-5">2200-5</option>
+            <option value="2200-6">2200-6</option>
+            <option value="2200-7">2200-7</option>
+            <option value="2200-8">2200-8</option>
+            <option value="2200-9">2200-9</option>
+            <option value="230-1">230-1</option>
+            <option value="3880-1">3880-1</option>
+            <option value="3880-2">3880-2</option>
+            <option value="3880-3">3880-3</option>
+            <option value="3880-4">3880-4</option>
+            <option value="3880-5">3880-5</option>
+            <option value="3880-6">3880-6</option>
+            <option value="3880-7">3880-7</option>
+            <option value="3880-8">3880-8</option>
+            <option value="3880-9">3880-9</option>
+            <option value="38800-5">38800-5</option>
+            <option value="38800-6">38800-6</option>
+            <option value="38800-9">38800-9</option>
+            <option value="400-1">400-1</option>
+            <option value="400-2">400-2</option>
+            <option value="400-3">400-3</option>
+            <option value="420-1">420-1</option>
+            <option value="55000">55000</option>
+            <option value="5600">5600</option>
+            <option value="6600">6600</option>
+        </select>
+      </div>
+
+    <div class="form-group"></div>
+        <label for="entry.195087753">Código:</label>
+        <input readonly value="4001" class="form-control" type="text" id="entry.195087753" name="entry.195087753">
+    </div>
+
+    <div class="form-group"></div>
+        <label for="entry.1772955202">cantidad programada:</label>
+        <input readonly class="form-control" type="text" id="entry.1772955202" name="entry.1772955202">
+    </div>
+
+    <div class="form-group"></div>
+        <label for="entry.922562181">cantidad producida:</label>
+        <input class="form-control" type="text" id="entry.922562181" name="entry.922562181">
+    </div>
+
+    <progress id="progress" max="0" value="0" style="width: 100%; height: 30px;"></progress>
+
+    <div class="form-group"></div>
+        <label for="entry.269150736">Parada por código:</label>
+        <input class="form-control" type="text" id="entry.269150736" name="entry.269150736">
+    </div>
+
+    <div class="form-group"></div>
+        <label for="entry.1310555853">Observaciones:</label>
+        <input class="form-control" type="text" id="entry.1310555853" name="entry.1310555853">
+    </div>
+
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
+
+<iframe style="display: none;" id="ifr" name="response"></iframe>
+
+</body>
