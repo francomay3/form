@@ -17,15 +17,42 @@ https://chriszarate.github.io/sheetrock/#usage
 <!DOCTYPE html>
 <html>
 <head>
+    <style>
+        progress {
+            background-color: #f3f3f3;
+            border: 0;
+            height: 18px;
+            border-radius: 9px;
+        }
+        ::-webkit-progress-bar {
+            background-color: rgb(167, 34, 34);
+            border-radius: 9px;
+            box-shadow: -2px 3px 3px rgba(0, 0, 0, 0.31) inset;
+        }
+        progress[value]::-webkit-progress-value::before {
+            content: '80%';
+            position: absolute;
+            right: 0;
+            top: -125%;
+        }
+        ::-webkit-progress-value{
+            background-color: rgb(59, 172, 15);
+            border-top-left-radius: 9px;
+            border-bottom-left-radius: 9px;
+            box-shadow: 40px 20px 40px rgba(255, 255, 255, 0.329) inset;
+        }
+    </style>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Form</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" 
+    <!-- <link rel="stylesheet" 
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
         integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" 
-        crossorigin="anonymous">
+        crossorigin="anonymous"> -->
+
+    <link rel="stylesheet" type="text/css" href="style.css">
 
     <!-- JQuery cdn -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -83,17 +110,22 @@ https://chriszarate.github.io/sheetrock/#usage
         }
         
         try{
-        var Qnuevo = document.getElementsByTagName('TD').item(0).innerHTML;
-        var Cnuevo = document.getElementsByTagName('TD').item(1).innerHTML;
-        if ((qaproducir != Qnuevo) || (codigo != Cnuevo)){
-            qaproducir=Qnuevo;
-            codigo=Cnuevo;
-            console.log(qaproducir+" "+codigo);
-            // entry.195087753
-            document.getElementById('entry.195087753').value = codigo;
-            document.getElementById('entry.1772955202').value = qaproducir;
-            document.getElementById('progress').setAttribute('max',qaproducir);
-        }}
+            var elementos = document.getElementsByTagName('TD');
+            var Qnuevo = elementos[elementos.length-2].innerHTML;
+            var Cnuevo = elementos[elementos.length-1].innerHTML;
+            if ((qaproducir != Qnuevo) || (codigo != Cnuevo)){
+                qaproducir=Qnuevo;
+                codigo=Cnuevo;
+                console.log(qaproducir+" "+codigo);
+                document.getElementById('entry.195087753').value = codigo;
+                document.getElementById('entry.1772955202').value = qaproducir;
+
+                document.getElementById('codigo').innerHTML=codigo;
+                document.getElementById('qprogramada').innerHTML=qaproducir;
+
+                document.getElementById('progress').setAttribute('max',qaproducir);
+            }
+        }
         catch(e){
             console.log("catch!");
         }
@@ -186,13 +218,18 @@ entry.1310555853: observaciones
       </div>
 
     <div class="form-group"></div>
-        <label for="entry.195087753">Código:</label>
-        <input readonly value="4001" class="form-control" type="text" id="entry.195087753" name="entry.195087753">
+        <label for="entry.195087753" style="display: none;">Código:</label>
+        <input style="display: none;" readonly value="4001" class="form-control" type="text" id="entry.195087753" name="entry.195087753">
     </div>
 
+    <label>Código:</label>
+    <p id="codigo">----</p>
+    <label>Cantidad programada:</label>
+    <p id="qprogramada">----</p>
+
     <div class="form-group"></div>
-        <label for="entry.1772955202">cantidad programada:</label>
-        <input readonly class="form-control" type="text" id="entry.1772955202" name="entry.1772955202">
+        <label style="display: none;" for="entry.1772955202">cantidad programada:</label>
+        <input style="display: none;" readonly class="form-control" type="text" id="entry.1772955202" name="entry.1772955202">
     </div>
 
     <div class="form-group"></div>
@@ -202,10 +239,23 @@ entry.1310555853: observaciones
 
     <progress id="progress" max="0" value="0" style="width: 100%; height: 30px;"></progress>
 
-    <div class="form-group"></div>
+    <!-- <div class="form-group"></div>
         <label for="entry.269150736">Parada por código:</label>
         <input class="form-control" type="text" id="entry.269150736" name="entry.269150736">
-    </div>
+    </div> -->
+
+    <div class="form-group">
+        <label for="entry.269150736">Parada por código:</label>
+        <select multiple class="form-control" id="entry.269150736" name="entry.269150736">
+          <option value="401">401. parada por desperfecto de inyectora.</option>
+          <option value="411">411. parada por desperfecto de molde.</option>
+          <option value="421">421. parada por desperfecto de robot.</option>
+          <option value="431">431. parada por falta de servicios.</option>
+          <option value="441">441. parada por falta de insumos.</option>
+          <option value="451">451. parada por falta de personal.</option>
+          <option value="461">461. parada por necesidades del operador.</option>
+        </select>
+      </div>
 
     <div class="form-group"></div>
         <label for="entry.1310555853">Observaciones:</label>
