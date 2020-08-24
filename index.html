@@ -1,28 +1,13 @@
-<!-- 
-
-google sheets:
-https://docs.google.com/spreadsheets/d/1FMKi9byUi5yGA324len--ltC9-Rh1pIwxnbeEGySaKM/edit#gid=899057190
-
-google form:
-https://docs.google.com/forms/d/1565V5_p7fnLF6kAextaEz6QzS2BguN2p5tjE_fQrvdw/edit
-
-form html:
-file:///C:/Users/Sr.%20Franco/Desktop/form.html
-
-como usar sheetrock:
-https://chriszarate.github.io/sheetrock/#usage
-
--->
-
 <!DOCTYPE html>
 <html>
 <head>
     <style>
-        progress {
+        /* progress {
             background-color: #f3f3f3;
             border: 0;
             height: 18px;
             border-radius: 9px;
+            margin-top: 10px;
         }
         ::-webkit-progress-bar {
             background-color: rgb(167, 34, 34);
@@ -40,7 +25,7 @@ https://chriszarate.github.io/sheetrock/#usage
             border-top-left-radius: 9px;
             border-bottom-left-radius: 9px;
             box-shadow: 40px 20px 40px rgba(255, 255, 255, 0.329) inset;
-        }
+        } */
     </style>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Form</title>
@@ -65,6 +50,14 @@ https://chriszarate.github.io/sheetrock/#usage
 
     <script>
     
+    function wait(ms){
+   var start = new Date().getTime();
+   var end = start;
+   while(end < start + ms) {
+     end = new Date().getTime();
+  }
+}
+
     var mySpreadsheet = "https://docs.google.com/spreadsheets/d/1ZBOIo_7HasdunKWIdft2-x4Ce-zU8_kqhF1BswyQo-4/edit#gid=0";
 
     $(document).ready(function() {
@@ -120,6 +113,8 @@ https://chriszarate.github.io/sheetrock/#usage
                 document.getElementById('entry.195087753').value = codigo;
                 document.getElementById('entry.1772955202').value = qaproducir;
 
+                // entry.922562181
+                document.getElementById('entry.922562181').removeAttribute('readonly');
                 document.getElementById('codigo').innerHTML=codigo;
                 document.getElementById('qprogramada').innerHTML=qaproducir;
 
@@ -129,9 +124,16 @@ https://chriszarate.github.io/sheetrock/#usage
         catch(e){
             console.log("catch!");
         }
-
+        var iframeContent = document.getElementById("ifr").contentWindow.document.body.innerHTML;
+        if (iframeContent.search("title")!=-1){
+            window.location.reload();
+        }
     }, 500);
 
+    function clear(){
+        alert('bien vos');
+        document.getElementById('myform').submit();
+    }
     </script>
 </head>
 <body>
@@ -154,7 +156,7 @@ entry.1310555853: observaciones
 
 <p id="succ" style="color: green;"></p>
 
-<form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSeXLFj_stFB6qz5G4EBq1yXjNyRvow__-3X4TbsnPevdLiQDg/formResponse" method="get" target="response">
+<form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSeXLFj_stFB6qz5G4EBq1yXjNyRvow__-3X4TbsnPevdLiQDg/formResponse" method="get" target="response" id="myform">
 
     <div class="form-group">
         <label for="entry.504557923">Máquina:</label>
@@ -224,7 +226,7 @@ entry.1310555853: observaciones
     </div>
 
     <label>Código:</label>
-    <p id="codigo">----</p>
+    <p id="codigo">----</p><br>
     <label>Cantidad programada:</label>
     <p id="qprogramada">----</p>
 
@@ -235,7 +237,7 @@ entry.1310555853: observaciones
 
     <div class="form-group"></div>
         <label for="entry.922562181">cantidad producida:</label>
-        <input class="form-control" type="text" id="entry.922562181" name="entry.922562181">
+        <input readonly class="form-control" type="number" id="entry.922562181" name="entry.922562181" required>
     </div>
 
     <progress id="progress" max="0" value="0" style="width: 100%; height: 30px;"></progress>
@@ -248,13 +250,13 @@ entry.1310555853: observaciones
     <div class="form-group">
         <label for="entry.269150736">Parada por código:</label>
         <select multiple class="form-control" id="entry.269150736" name="entry.269150736">
-          <option value="401">401. parada por desperfecto de inyectora.</option>
-          <option value="411">411. parada por desperfecto de molde.</option>
-          <option value="421">421. parada por desperfecto de robot.</option>
-          <option value="431">431. parada por falta de servicios.</option>
-          <option value="441">441. parada por falta de insumos.</option>
-          <option value="451">451. parada por falta de personal.</option>
-          <option value="461">461. parada por necesidades del operador.</option>
+          <option value="401">401. parada por desperfecto de INYECTORA.</option>
+          <option value="411">411. parada por desperfecto de MOLDE.</option>
+          <option value="421">421. parada por desperfecto de ROBOT.</option>
+          <option value="431">431. parada por falta de SERVICIOS.</option>
+          <option value="441">441. parada por falta de INSUMOS.</option>
+          <option value="451">451. parada por falta de PERSONAL.</option>
+          <option value="461">461. parada por necesidades del OPERADOR.</option>
         </select>
       </div>
 
@@ -263,9 +265,10 @@ entry.1310555853: observaciones
         <input class="form-control" type="text" id="entry.1310555853" name="entry.1310555853">
     </div>
 
-    <button type="submit" class="btn btn-default" onclick="document.getElementById('ifr').addEventListener(onload, success());">Submit</button>
+    <!-- <button type="submit" class="btn btn-default" onsubmit="clear()">Declarar</button> -->
+    <div type="submit" class="btn btn-default" onclick="document.getElementById('myform').submit();">Declarar</div>
 </form>
 
-<iframe style="display: none;" id="ifr" name="response"></iframe>
+<iframe id="ifr" style="display: block; width: 100%;" name="response"></iframe>
 
 </body>
